@@ -15,7 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# PayPal Sandbox Credentials (Aap apne PayPal Developer Dashboard se Client ID aur Secret yahan daal sakte hain)
+# Aapke PayPal Developer Dashboard ke Sandbox Credentials
 PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID", "AVXA7PxB-gv6kcTJtnqlCThUH8DtyB-VmwKVmNJfFUw93MwWheRB_R9P71DfXiYNVg0piJul8AkRZask")
 PAYPAL_SECRET = os.getenv("PAYPAL_SECRET", "EC6_7n19T6wP2llW4djZQFBXBhYL3zOraE8n4JOtyCqEEy9A7qZgI-poXM0nphQSxhB1ZPLBOQjoqmGp")
 PAYPAL_BASE_URL = "https://api-m.sandbox.paypal.com"
@@ -36,54 +36,58 @@ class ChatRequest(BaseModel):
 def ai_agent_brain(req: ChatRequest):
     user_msg = req.message.lower()
     
-    # Advanced AI Agent Intent Matching & Product Recommendation with Image URLs
-    if any(keyword in user_msg for keyword in ["headphone", "audio", "earbuds", "music"]):
+    # Amazon / Flipkart Style Smart E-Commerce Intent Matching
+    if any(keyword in user_msg for keyword in ["headphone", "audio", "earbuds", "music", "boat", "sony"]):
         product = {
             "id": "prod_01",
-            "name": "pTron Bassbuds Pro AI-ENC Wireless Earbuds",
-            "price": "49.99",
+            "name": "boAt Airdopes 141 True Wireless Earbuds",
+            "price": "39.99",
             "currency": "USD",
+            "platform": "Amazon Choice",
             "category": "Electronics",
             "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&auto=format&fit=crop&q=60",
-            "description": "High-fidelity sound, AI environmental noise cancellation, and ultra-low latency gaming mode."
+            "description": "42H Playtime, Beast Mode for Low Latency Gaming, ENx Tech, ASAP Charge."
         }
-        reply = f"Maine aapke liye top-rated **{product['name']}** select kiya hai ($49.99). Iski image aur details aap side card mein dekh sakte hain. Kya main iska autonomous PayPal checkout initiate karun?"
+        reply = f"Amazon catalog se aapke liye top-rated **{product['name']}** ($39.99) fetch kiya hai. Yeh **Amazon Choice** product hai. Kya main iska secure PayPal checkout initiate karun?"
     
-    elif any(keyword in user_msg for keyword in ["keyboard", "gaming", "mechanical", "setup"]):
+    elif any(keyword in user_msg for keyword in ["keyboard", "gaming", "mechanical", "mouse", "flipkart"]):
         product = {
             "id": "prod_02",
-            "name": "RGB Mechanical Pro Gaming Keyboard",
-            "price": "79.99",
+            "name": "Cosmic Byte CB-GK-16 Firefly Mechanical Keyboard",
+            "price": "64.99",
             "currency": "USD",
-            "category": "Peripherals",
+            "platform": "Flipkart Assured",
+            "category": "Gaming Peripherals",
             "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&auto=format&fit=crop&q=60",
-            "description": "Hot-swappable switches, custom RGB profiles, and ergonomic wrist rest for pro gamers."
+            "description": "Outemu Blue Switches, Rainbow LED Backlit, Anti-Ghosting Keys for Pro Gamers."
         }
-        reply = f"Aapke gaming setup ke liye yeh **{product['name']}** ($79.99) sabse best rahega. Bataiye, kya direct order place karein?"
+        reply = f"Flipkart Assured store se **{product['name']}** ($64.99) select kiya gaya hai. Bataiye, kya direct order place karein?"
     
-    elif any(keyword in user_msg for keyword in ["cloud", "optimizer", "dev", "server"]):
+    elif any(keyword in user_msg for keyword in ["phone", "mobile", "smartphone", "iphone", "samsung"]):
         product = {
             "id": "prod_03",
-            "name": "Cloud FinOps AI Cost Optimizer License",
-            "price": "129.99",
+            "name": "OnePlus Nord CE 5G Smartphone",
+            "price": "299.99",
             "currency": "USD",
-            "category": "Developer Tools",
-            "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format&fit=crop&q=60",
-            "description": "Automated AWS/Cloud cost tracking, anomaly detection, and instant savings recommendations."
+            "platform": "Amazon Mega Store",
+            "category": "Smartphones",
+            "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&auto=format&fit=crop&q=60",
+            "description": "90Hz Fluid AMOLED display, 5G enabled, triple camera setup with fast charging."
         }
-        reply = f"Cloud management ke liye hamara flagship tool **{product['name']}** ($129.99) available hai. Securely checkout karne ke liye button par click karein."
+        reply = f"Aapki requirement ke mutabiq Amazon store se **{product['name']}** ($299.99) mil gaya hai. Secure checkout ke liye button par click karein."
     
     else:
         product = {
             "id": "prod_04",
             "name": "Smart AI Productivity Hub Gadget",
-            "price": "29.99",
+            "price": "24.99",
             "currency": "USD",
+            "platform": "Amazon Prime",
             "category": "Gadgets",
             "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&auto=format&fit=crop&q=60",
             "description": "Compact hardware companion for quick AI queries and daily workflow automation."
         }
-        reply = f"Aapki query ke mutabiq maine **{product['name']}** ($29.99) analyze kiya hai. Kya iska payment process karein?"
+        reply = f"Amazon/Flipkart network se match karta hua **{product['name']}** ($24.99) analyze kiya hai. Kya iska payment process karein?"
 
     return {
         "reply": reply,
